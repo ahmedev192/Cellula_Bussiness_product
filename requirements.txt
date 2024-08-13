@@ -1,8 +1,9 @@
 fastapi
 uvicorn
 fpdf
+pydantic
+speechrecognition
 moviepy
-SpeechRecognition
 transformers
-torch
 python-multipart
+torch
