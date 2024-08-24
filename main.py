@@ -14,6 +14,12 @@ import os
 import speech_recognition as sr
 from moviepy.editor import AudioFileClip, VideoFileClip
 from transformers import pipeline
+from pydantic import BaseModel
+from typing import List
+import chromadb
+from datetime import datetime
+from sentence_transformers import SentenceTransformer
+
 
 TEMP_DIR = os.path.join(os.getcwd(), "temps")
 os.makedirs(TEMP_DIR, exist_ok=True)
@@ -265,3 +271,132 @@ def generate_pdf(summary_text):
     pdf.multi_cell(0, 10, summary_text)
     pdf.output(pdf_path)
     return pdf_path
+
+
+
+
+
+
+
+
+# Chat Boot : 
+
+
+
+# Initialize a sentence transformer model
+embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+
+def query_database(message: str):
+    # Convert the message to an embedding
+    message_embedding = embedding_model.encode([message])  # This returns a list of embeddings
+
+    # Query ChromaDB using the embedding
+    results = collection.query(embeddings=message_embedding)
+    print("Query results:", results)
+
+    return results
+
+
+
+# Initialize the ChromaDB client
+chroma_client = chromadb.Client()
+
+# Assuming you've already created a collection in ChromaDB
+collection = chroma_client.get_or_create_collection("my_collection")
+###################################################### collection.add(query=query, response=correct_response) hn add info bta3t el company
+# Session storage for chat history
+chat_history = {}
+
+class ChatEntry(BaseModel):
+    message: str
+    timestamp: str
+
+class Message(BaseModel):
+    message: str  # Remove `session_id` from the Message class
+
+
+class Response(BaseModel):
+    session_id: str
+    response: str
+    history: List[ChatEntry]
+
+def query_database(message: str):
+    # Query ChromaDB to get the closest match
+    results = collection.query(message)
+    return results
+
+def check_scope(result) -> bool:
+    # Define a threshold to determine if the result is within the scope
+    threshold = 0.7  # Example threshold
+    
+    # Check if the result contains the score
+    if "score" in result:
+        return result["score"] >= threshold
+    else:
+        print("Result does not contain 'score'. Full result:", result)
+        return False
+
+
+def get_session(session_token: str = Cookie(None)):
+    if not session_token or session_token not in session_storage:
+        raise HTTPException(status_code=403, detail="Session not found or expired")
+    
+    verify_session_token(session_token)
+    
+    return session_token
+
+
+
+
+@app.post("/chat", response_model=Response)
+def chat(message: Message, session_token: str = Depends(get_session)):
+    session_id = session_token  # Use the session token as the session ID
+    
+    user_message = message.message
+
+    # Initialize chat history if not present
+    if session_id not in chat_history:
+        chat_history[session_id] = []
+
+    # Get current timestamp
+    timestamp = datetime.now().isoformat()
+
+    # Add the user message to the chat history with timestamp
+    chat_history[session_id].append(ChatEntry(message=f"User: {user_message}", timestamp=timestamp))
+
+    # Convert the user message to an embedding
+    message_embedding = embedding_model.encode([user_message])  # Convert to embedding list
+
+    # Query the database with the embedding
+    result = query_database(message_embedding)
+
+    # Check if the response is in scope
+    if check_scope(result):
+        response = result["data"]
+    else:
+        response = "It's out of my scope, please contact us."
+
+    # Add the bot response to the chat history with timestamp
+    chat_history[session_id].append(ChatEntry(message=f"Bot: {response}", timestamp=timestamp))
+
+    # Sort the history by timestamp
+    sorted_history = sorted(chat_history[session_id], key=lambda x: x.timestamp)
+
+    return Response(session_id=session_id, response=response, history=sorted_history)
+
+
+
+@app.get("/chat/history", response_model=List[ChatEntry])
+def get_history(session_id: str = Depends(get_session)):
+    # Get the session ID from the session dependency
+    session_id = session_id  # Use the session token as the session ID
+
+    # Check if the session ID exists in the chat history
+    if session_id not in chat_history:
+        # Return an empty list or an appropriate response if the session ID does not exist
+        return []
+
+    # Sort the chat history by timestamp before returning
+    sorted_history = sorted(chat_history[session_id], key=lambda x: x.timestamp)
+    
+    return sorted_history

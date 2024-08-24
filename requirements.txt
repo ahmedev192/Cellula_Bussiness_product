@@ -7,3 +7,5 @@ moviepy
 transformers
 python-multipart
 torch
+chromadb
+sentence-transformers
