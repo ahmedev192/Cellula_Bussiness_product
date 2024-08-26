@@ -204,23 +204,28 @@ def summarize_in_background(file_type, summarization_factor, file_path: str, ema
 
 
 
-def summarization_model(text, summarization_factor):
+def summarization_model(text, summarization_factor, chunk_size=512):
     if not (0 < summarization_factor <= 1):
         raise ValueError("Summarization factor must be between 0 and 1.")
 
     summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-    original_length = len(text.split())
-    max_length = int(original_length * summarization_factor)
-    min_length = max(10, int(max_length * 0.5))
+    text_chunks = [text[i:i+chunk_size] for i in range(0, len(text), chunk_size)]
+    summaries = []
 
-    summary = summarizer(
-        text,
-        max_length=max_length,
-        min_length=min_length,
-        do_sample=False
-    )
+    for chunk in text_chunks:
+        original_length = len(chunk.split())
+        max_length = int(original_length * summarization_factor)
+        min_length = max(10, int(max_length * 0.5))
 
-    return summary[0]['summary_text']
+        summary = summarizer(
+            chunk,
+            max_length=max_length,
+            min_length=min_length,
+            do_sample=False
+        )
+        summaries.append(summary[0]['summary_text'])
+
+    return " ".join(summaries)
 
 
 
@@ -312,7 +317,7 @@ class ChatEntry(BaseModel):
     timestamp: str
 
 class Message(BaseModel):
-    message: str  # Remove `session_id` from the Message class
+    message: str  # Remove session_id from the Message class
 
 
 class Response(BaseModel):
