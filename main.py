@@ -115,6 +115,14 @@ async def login(request: Request, response: Response, password: str = Form(...),
 
 
 
+def get_session(session_token: str = Cookie(None)):
+    if not session_token or session_token not in session_storage:
+        raise HTTPException(status_code=403, detail="Session not found or expired")
+    print("current Session Token : " + session_token)
+    verify_session_token(session_token)
+    
+    return session_token
+
 
 
 
@@ -126,10 +134,9 @@ async def upload_file(
     file_type: Literal['audio', 'video', 'text'] = Form(...),
     summarization_factor: str = Form(...),
     file: UploadFile = File(...),
-    session_token: str = Cookie(None),
+    session_token: str = Depends(get_session),
 ):
     try:
-        verify_session_token(session_token)
         summarization_factor = float(summarization_factor)
         email = session_storage[session_token]['email']
 
@@ -341,14 +348,6 @@ def check_scope(result) -> bool:
         print("Result does not contain 'score'. Full result:", result)
         return False
 
-
-def get_session(session_token: str = Cookie(None)):
-    if not session_token or session_token not in session_storage:
-        raise HTTPException(status_code=403, detail="Session not found or expired")
-    
-    verify_session_token(session_token)
-    
-    return session_token
 
 
 
