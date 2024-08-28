@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FastAPI Frontend</title>
+  </head>
+  <body>
+    <h1>FastAPI Frontend</h1>
+
+    <!-- Login Form -->
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+      /><br /><br />
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required /><br /><br />
+      <button type="submit">Login</button>
+    </form>
+
+    <!-- File Upload Form -->
+    <h2>Upload File</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <label for="fileType">File Type:</label>
+      <select id="fileType" name="fileType" required>
+        <option value="audio">Audio</option>
+        <option value="video">Video</option>
+        <option value="text">Text</option></select
+      ><br /><br />
+      <label for="summarizationFactor">Summarization Factor (0-1):</label>
+      <input
+        type="number"
+        id="summarizationFactor"
+        name="summarizationFactor"
+        step="0.01"
+        min="0"
+        max="1"
+        required
+      /><br /><br />
+      <label for="file">File:</label>
+      <input type="file" id="file" name="file" required /><br /><br />
+      <button type="submit">Upload</button>
+    </form>
+
+    <!-- Chat Form -->
+    <h2>Chat</h2>
+    <form id="chatForm">
+      <label for="message">Message:</label>
+      <input type="text" id="message" name="message" required /><br /><br />
+      <button type="submit">Send</button>
+    </form>
+
+    <div id="chatHistory">
+      <h3>Chat History</h3>
+      <ul id="chatHistoryList"></ul>
+    </div>
+
+    <script>
+      const loginForm = document.getElementById("loginForm");
+      const uploadForm = document.getElementById("uploadForm");
+      const chatForm = document.getElementById("chatForm");
+      const chatHistoryList = document.getElementById("chatHistoryList");
+
+      loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(loginForm);
+        const response = await fetch("/login", {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        });
+        const result = await response.json();
+        alert(result.message);
+      });
+
+      uploadForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(uploadForm);
+        const response = await fetch("/upload", {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        });
+        const result = await response.json();
+        alert(result.message);
+      });
+
+      chatForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(chatForm);
+        const response = await fetch("/chat", {
+          method: "POST",
+          body: JSON.stringify({
+            message: formData.get("message"),
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const result = await response.json();
+        const listItem = document.createElement("li");
+        listItem.textContent = `User: ${formData.get("message")} | Bot: ${
+          result.response
+        }`;
+        chatHistoryList.appendChild(listItem);
+      });
+
+      async function fetchChatHistory() {
+        const response = await fetch("/chat/history", {
+          method: "GET",
+          credentials: "include",
+        });
+        const history = await response.json();
+        chatHistoryList.innerHTML = "";
+        history.forEach((entry) => {
+          const listItem = document.createElement("li");
+          listItem.textContent = `${entry.timestamp} - ${entry.message}`;
+          chatHistoryList.appendChild(listItem);
+        });
+      }
+
+      fetchChatHistory();
+    </script>
+  </body>
+</html>

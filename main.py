@@ -19,12 +19,21 @@ from typing import List
 import chromadb
 from datetime import datetime
 from sentence_transformers import SentenceTransformer
+from starlette.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 
 TEMP_DIR = os.path.join(os.getcwd(), "temps")
 os.makedirs(TEMP_DIR, exist_ok=True)
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust as necessary
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 security = HTTPBasic()
 
 
@@ -80,9 +89,14 @@ def send_email_with_pdf(to_email: str, subject: str, body: str, pdf_path: str):
 
 
 
+@app.get("/")
+async def root():
+    return FileResponse('index.html')
 
 
-
+@app.get("/upload")
+async def upload():
+    return FileResponse('upload.html')
 
 @app.post("/login")
 async def login(request: Request, response: Response, password: str = Form(...), email: str = Form(...)):
@@ -136,6 +150,7 @@ async def upload_file(
     file: UploadFile = File(...),
     session_token: str = Depends(get_session),
 ):
+
     try:
         summarization_factor = float(summarization_factor)
         email = session_storage[session_token]['email']
