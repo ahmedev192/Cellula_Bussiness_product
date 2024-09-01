@@ -140,6 +140,14 @@ async def root():
 
 
 
+
+
+
+
+
+
+
+
 @app.post("/login")
 async def login(
     request: Request, 
@@ -164,15 +172,34 @@ async def login(
             "expiry_time": datetime.now() + SESSION_EXPIRY_DURATION
         }
 
-        response.set_cookie(key="session_token", value=session_token, httponly=True, secure=True, samesite='Lax')
+        response.set_cookie(
+            key="session_token", 
+            value=session_token, 
+            httponly=True, 
+            secure=True, 
+            samesite='Lax'
+        )
 
         # Redirect to the upload page after a successful login
-        return RedirectResponse(url="/upload", status_code=302)
+        redirect_response = RedirectResponse(url="/upload", status_code=302)
+        redirect_response.set_cookie(
+            key="session_token", 
+            value=session_token, 
+            httponly=True, 
+            secure=True, 
+            samesite='Lax'
+        )
+
+
+        return redirect_response
     
     except HTTPException as e:
         raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
+
+
+
 
 
 
