@@ -1,5 +1,3 @@
-fastapi
-uvicorn
 fpdf
 pydantic
 speechrecognition
@@ -9,3 +7,6 @@ python-multipart
 torch
 chromadb
 sentence-transformers
+Flask
+Flask-CORS
+Werkzeug

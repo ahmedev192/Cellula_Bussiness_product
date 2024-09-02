@@ -1,0 +1,468 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+
+body {
+    font-family: "Open Sans", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    overflow-x: hidden;
+    width: 100% !important;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+    color: #0F1035;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99999999;
+    background-image: linear-gradient(to right top, #0F1035, #143860, #1d4b7b, #255f97, #40A2D8);
+}
+
+#nav-list {
+    list-style: none;
+    display: flex;
+    width: 30%;
+    justify-content: center;
+    justify-content: space-between;
+    align-items: end;
+    margin: 0px 50px;
+
+}
+
+#nav-list li {
+    margin: 10px;
+}
+
+#cellula-logo {
+    margin-left: 50px;
+}
+
+.info-listItem {
+    text-decoration: none;
+    color: #F6F1F1;
+    font-weight: 500;
+}
+
+.info-listItem:hover {
+    color: #7FC7D9;
+    font-weight: 800;
+    transition: 0.5s;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+}
+
+#bg-Img {
+    width: 100%;
+    filter: brightness(20%);
+    height: 80%;
+    box-shadow: 5px 5px 20px lightslategray;
+
+
+}
+
+.Div-bg-Img {
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+    height: 130vh;
+
+}
+
+#mainSection {
+    position: relative;
+}
+
+
+
+#Time-Knife-hello , #select-prop{
+    /* margin-bottom: 30px; */
+    letter-spacing: 2px;
+    color: #85CDFD; 
+    font-weight: bold;
+}
+#select-prop{
+color: #255f97;
+margin-bottom: 30px;
+margin-right: 40px;
+
+}
+#uplod-Div {
+    width: 100%;
+    height: 100vh;
+    margin: auto;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#uploaded-URL {
+    width: 60%;
+    border: 3px solid #050C9C;
+    padding: 7px;
+    /* margin: 10px; */
+    margin: auto;
+    display: block;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #DCF2F1;
+}
+
+
+#Apply-prop , #upload-btn
+{
+
+    background-color: #0B60B0;
+    border: 3px #0B60B0 solid;
+    border-radius: 5px;
+    display: block;
+    /* width: 20%; */
+    margin: auto;
+    margin-top: 20px;
+    padding: 5px;
+    font-weight: 500;
+    color: #DCF2F1;
+
+}
+
+#upload-btn{
+    margin-right: 50%;
+}
+
+#uplod-Div h3 {
+    margin-bottom: 70px;
+    letter-spacing: 2px;
+    color: #85CDFD;
+}
+
+
+
+#h3-aboutus {
+    text-align: center;
+    font-size: 50px;
+    color: #0F1035;
+    padding-top: 100px;
+    padding-bottom: 30px;
+}
+
+#hr-aboutUs {
+    border: #0F1035 solid 5px;
+    width: 20%;
+    margin: auto;
+    border-radius: 10px;
+    opacity: 1;
+
+
+
+}
+
+#Cellula-span {
+    color: #144272;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+#aboutus-summary {
+    width: 90%;
+    margin: auto;
+    padding-top: 40px;
+    padding-bottom: 100px;
+    color: #255f97;
+}
+
+#About-Us {
+    background-color: #e7f0f0;
+    padding-bottom: 200px;
+    box-shadow: 5px 5px 20px lightslategray;
+
+
+}
+
+.abotus-card h5 {
+    font-size: 50;
+    font-weight: bold;
+    color: #143860;
+    padding: 15px;
+
+}
+
+.abotus-card {
+    box-shadow: 5px 5px 20px lightslategray;
+    border-radius: 20px;
+    position: relative;
+}
+
+.abotus-card img {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 200px;
+}
+
+.abotus-card img:hover {
+    filter: brightness(50%);
+    transition: 0.3s;
+}
+
+.Learnmore {
+    position: absolute;
+    top: 40%;
+    left: 35%;
+    font-size: 15px;
+    font-weight: bold;
+    display: none;
+
+}
+
+.Learnmore p {
+    color: #DCF2F1;
+
+}
+
+
+.see-Enterns {
+    margin-left: 70%;
+}
+
+.abotus-card img:hover+.Learnmore {
+    display: block;
+    cursor: pointer;
+
+}
+
+.Learnmore:hover {
+    display: block;
+}
+
+.Learnmore:hover+.abotus-card img {
+    filter: brightness(60%);
+    transition: 0.3s;
+}
+
+
+.Ser-heading {
+    color: #143860;
+    font-size: 50px;
+    font-weight: 700;
+}
+
+
+
+.hr-SFTheading,
+.hr-PREheading,
+.hr-BDheading {
+    width: 90%;
+    border: 5px solid #143860;
+    border-radius: 10px;
+    opacity: 1;
+    margin-bottom: 30px;
+}
+
+
+.hr-BDheading,
+.hr-PREheading {
+    width: 100%;
+}
+
+.paragraph-ser {
+    color: #1d4b7b;
+    font-size: 20px;
+
+}
+
+#Time-Knife {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+
+
+#Software-Solutions,
+#Pre-Internships,
+#Business-Department,
+#Contact-Us {
+    padding-bottom: 200px;
+    padding-top: 100px;
+    box-shadow: 5px 5px 20px lightslategray;
+}
+
+#Contact-Us {
+    padding-top: 50px;
+    padding-bottom: 60px;
+
+}
+
+#SFTsol-img {
+    box-shadow: 5px 5px 20px lightslategray;
+    width: 500px;
+    height: 370px;
+}
+
+
+#Contact-Us {
+    background-color: #e7f0f0;
+}
+
+#Contact-Us i {
+    font-size: 70px;
+}
+
+#Contact-Us .card {
+    border-radius: 80px;
+    padding: 20px;
+
+}
+
+#Contactus {
+    text-align: center;
+    width: 30%;
+    margin-left: 34%;
+    font-size: 50px;
+    color: #0F1035;
+    padding-top: 100px;
+    padding-bottom: 30px;
+}
+
+#hr-contactus {
+    border: #0F1035 solid 5px;
+    width: 20%;
+    margin-left: 39%;
+    border-radius: 10px;
+    opacity: 1;
+
+}
+
+
+.contact-card:hover {
+    background-color: #144272;
+    /* color:#85CDFD; */
+    transition: 0.8s;
+}
+
+.contact-card:hover i,
+.contact-card:hover .card-text {
+    color: #40A2D8;
+}
+
+.carousel-item h5 {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* 
+.carousel-control-next-icon , .carousel-control-previous-icon{
+
+} */
+
+
+
+
+#carouselExampleAutoplaying{
+    box-shadow: 0px 0px 40px lightslategray;
+    border-radius: 10px;
+    background-color:#e4f5ff;
+
+}
+
+.slide-desc h5{
+color: #143860;
+text-align: center;
+line-height: 1.5;
+}
+
+.Bblue-bg{
+    background-color:#DCF2F1;
+}
+
+
+.main-body{
+    position: relative;
+}
+
+#chat-bot{
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    font-size: 45px;
+    color:#143860;
+}
+
+
+
+
+/* //bahr */
+
+#About-us img{
+    height: 250px;
+}
+
+#moreAbout-us {
+    margin: auto;
+    padding-top: 60px;
+    color: #1d4b7b;
+}
+
+#services p,#preIntern p{
+        font-weight: 500 ;
+        font-size: 25px;
+        text-align: left;
+        word-spacing: 10px;
+}
+
+#services .ff{
+    text-align: right;
+}
+
+
+
+@media screen and (max-width:600px) {
+    .test{
+        margin: 8px 0;
+    }
+    #aboutus-summary span{
+        font-size: 30px;
+}
+    #aboutus-summary h4{
+            font-size: 20px;
+    }
+    #moreAbout-us {
+        width: 95%;
+        margin: auto;
+        margin: 15px 0;
+        color: #1d4b7b;
+        font-size: 20px;
+        margin: auto;
+    }
+    #services p,#preIntern  p{
+        font-size: 20px;
+    }
+    #services img{
+        text-align: center;
+      width:90%;
+      height: 300px;
+      margin: auto;
+    }
+    .caro{
+        width: 100%;
+    }
+}

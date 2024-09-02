@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <title>Cellula Technologies</title>
+  </head>
+
+  <body>
+    <img id="logo" src="/static/images/logo_nobg-removebgtry.png" alt="" />
+    <div class="main-page">
+      <div class="text-center">
+        <h1 id="cellula" class="text-white">Cellula Technologies</h1>
+        <div class="login-Div">
+          <!-- Updated form to use POST method and target the /login endpoint -->
+          <form action="/login" method="POST">
+            <!-- Email input field for user email -->
+            <input
+              class="form-control my-3"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your Email"
+              required
+            />
+            <!-- Password input field for user password -->
+            <input
+              class="form-control my-3"
+              type="password"
+              id="login"
+              name="password"
+              placeholder="Enter the Password"
+              required
+            />
+
+            <!-- Submit button to trigger form submission -->
+            <button class="btn btn-primary" type="submit" id="login-btn">
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
